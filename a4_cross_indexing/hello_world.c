@@ -1,10 +1,6 @@
-/* Hello World program */
-
 #include<stdio.h>
-
-int x = 0;
-
+int x = 1; 
 int main() {
-    printf("Hello World\n");
-    return 0;
+    int y = 2;
+    int z = x + y;
 }

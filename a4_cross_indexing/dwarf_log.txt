@@ -1,73 +1,19 @@
 
 .debug_info
 
-COMPILE_UNIT<header overall offset = 0x00000000>:
-< 0><0x0000000b>  DW_TAG_compile_unit
-                    DW_AT_producer              GNU C11 5.1.1 20150618 (Red Hat 5.1.1-4) -mtune=generic -march=x86-64 -g3
-                    DW_AT_language              DW_LANG_C99
-                    DW_AT_name                  hello_world.c
-                    DW_AT_comp_dir              /u/choltz2/school/csc_254/a4_cross_indexing
-                    DW_AT_low_pc                0x00400536
-                    DW_AT_high_pc               <offset-from-lowpc>21
-                    DW_AT_stmt_list             0x00000000
-                    DW_AT_GNU_macros            0x00000000
-
-LOCAL_SYMBOLS:
-< 1><0x00000031>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000008
-                      DW_AT_encoding              DW_ATE_unsigned
-                      DW_AT_name                  long unsigned int
-< 1><0x00000038>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000001
-                      DW_AT_encoding              DW_ATE_unsigned_char
-                      DW_AT_name                  unsigned char
-< 1><0x0000003f>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000002
-                      DW_AT_encoding              DW_ATE_unsigned
-                      DW_AT_name                  short unsigned int
-< 1><0x00000046>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000004
-                      DW_AT_encoding              DW_ATE_unsigned
-                      DW_AT_name                  unsigned int
-< 1><0x0000004d>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000001
-                      DW_AT_encoding              DW_ATE_signed_char
-                      DW_AT_name                  signed char
-< 1><0x00000054>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000002
-                      DW_AT_encoding              DW_ATE_signed
-                      DW_AT_name                  short int
-< 1><0x0000005b>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000004
-                      DW_AT_encoding              DW_ATE_signed
-                      DW_AT_name                  int
-< 1><0x00000062>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000008
-                      DW_AT_encoding              DW_ATE_signed
-                      DW_AT_name                  long int
-< 1><0x00000069>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000008
-                      DW_AT_encoding              DW_ATE_unsigned
-                      DW_AT_name                  sizetype
-< 1><0x00000070>    DW_TAG_base_type
-                      DW_AT_byte_size             0x00000001
-                      DW_AT_encoding              DW_ATE_signed_char
-                      DW_AT_name                  char
-< 1><0x00000077>    DW_TAG_subprogram
-                      DW_AT_external              yes(1)
-                      DW_AT_name                  main
-                      DW_AT_decl_file             0x00000001 /u/choltz2/school/csc_254/a4_cross_indexing/hello_world.c
-                      DW_AT_decl_line             0x00000007
-                      DW_AT_type                  <0x0000005b>
-                      DW_AT_low_pc                0x00400536
-                      DW_AT_high_pc               <offset-from-lowpc>21
-                      DW_AT_frame_base            len 0x0001: 9c: DW_OP_call_frame_cfa
-                      DW_AT_GNU_all_tail_call_sitesyes(1)
-< 1><0x00000094>    DW_TAG_variable
-                      DW_AT_name                  x
-                      DW_AT_decl_file             0x00000001 /u/choltz2/school/csc_254/a4_cross_indexing/hello_world.c
-                      DW_AT_decl_line             0x00000005
-                      DW_AT_type                  <0x0000005b>
-                      DW_AT_external              yes(1)
-                      DW_AT_location              len 0x0009: 033810600000000000: DW_OP_addr 0x00601038
+<0><0x0+0xb><DW_TAG_compile_unit> DW_AT_producer<GNU C11 5.1.1 20150618 (Red Hat 5.1.1-4) -mtune=generic -march=x86-64 -g3> DW_AT_language<DW_LANG_C99> DW_AT_name<hello_world.c> DW_AT_comp_dir</u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing> DW_AT_low_pc<0x004004f6> DW_AT_high_pc<<offset-from-lowpc>32> DW_AT_stmt_list<0x00000000> DW_AT_GNU_macros<0x00000000>
+<1><0x31><DW_TAG_base_type> DW_AT_byte_size<0x00000008> DW_AT_encoding<DW_ATE_unsigned> DW_AT_name<long unsigned int>
+<1><0x38><DW_TAG_base_type> DW_AT_byte_size<0x00000001> DW_AT_encoding<DW_ATE_unsigned_char> DW_AT_name<unsigned char>
+<1><0x3f><DW_TAG_base_type> DW_AT_byte_size<0x00000002> DW_AT_encoding<DW_ATE_unsigned> DW_AT_name<short unsigned int>
+<1><0x46><DW_TAG_base_type> DW_AT_byte_size<0x00000004> DW_AT_encoding<DW_ATE_unsigned> DW_AT_name<unsigned int>
+<1><0x4d><DW_TAG_base_type> DW_AT_byte_size<0x00000001> DW_AT_encoding<DW_ATE_signed_char> DW_AT_name<signed char>
+<1><0x54><DW_TAG_base_type> DW_AT_byte_size<0x00000002> DW_AT_encoding<DW_ATE_signed> DW_AT_name<short int>
+<1><0x5b><DW_TAG_base_type> DW_AT_byte_size<0x00000004> DW_AT_encoding<DW_ATE_signed> DW_AT_name<int>
+<1><0x62><DW_TAG_base_type> DW_AT_byte_size<0x00000008> DW_AT_encoding<DW_ATE_signed> DW_AT_name<long int>
+<1><0x69><DW_TAG_base_type> DW_AT_byte_size<0x00000008> DW_AT_encoding<DW_ATE_unsigned> DW_AT_name<sizetype>
+<1><0x70><DW_TAG_base_type> DW_AT_byte_size<0x00000001> DW_AT_encoding<DW_ATE_signed_char> DW_AT_name<char>
+<1><0x77><DW_TAG_subprogram> DW_AT_external<yes(1)> DW_AT_name<main> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/hello_world.c> DW_AT_decl_line<0x00000003> DW_AT_type<<0x0000005b>> DW_AT_low_pc<0x004004f6> DW_AT_high_pc<<offset-from-lowpc>32> DW_AT_frame_base<len 0x0001: 9c: DW_OP_call_frame_cfa> DW_AT_GNU_all_call_sites<yes(1)> DW_AT_sibling<<0x000000b1>>
+<2><0x98><DW_TAG_variable> DW_AT_name<y> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/hello_world.c> DW_AT_decl_line<0x00000004> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 916c: DW_OP_fbreg -20>
+<2><0xa4><DW_TAG_variable> DW_AT_name<z> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/hello_world.c> DW_AT_decl_line<0x00000005> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9168: DW_OP_fbreg -24>
+<1><0xb1><DW_TAG_variable> DW_AT_name<x> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/hello_world.c> DW_AT_decl_line<0x00000002> DW_AT_type<<0x0000005b>> DW_AT_external<yes(1)> DW_AT_location<len 0x0009: 032c10600000000000: DW_OP_addr 0x0060102c>
 
