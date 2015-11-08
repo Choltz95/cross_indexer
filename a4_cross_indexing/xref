@@ -1,0 +1,54 @@
+ #!/usr/bin/perl
+  #
+  # The traditional first program.
+
+  # Strict and warnings are recommended.
+  use strict;
+  use warnings;
+  use autodie;
+  use File::Copy;
+
+  # Print a message.
+  print "Hello, World!\n";
+  my $cmd = ("~cs254/bin/dwarfdump " . $ARGV[0]);
+  my $output = `$cmd`; # backticks instead of system to return output
+  #print "*****************\n";
+  #print $output;
+  
+  # save to file 
+  open (my $file, '>', 'dwarfdump_output.txt') or die "Could not open file: $!";
+  die "$!" if $?;
+  print $file $output;
+
+  sub create_directory {
+    my $directory = "HTML";
+# create directory HTML
+    unless(mkdir $directory) {
+      die "Unable to create $directory\n";
+    }
+# move all html files into directory HTML
+    my $files = "*.html";
+    my $arc_dir = "HTML";
+    for my $file (glob $files) {
+      move ($file, $arc_dir) or die $!;
+    }
+  }
+
+  sub read_from_dump {
+    my $file = "dwarfdump_output.txt";
+    if (open(my $fh, '<:encoding(UTF-8)', $file)) {
+      while (my $row = <fh>) {
+        chomp $row;
+        print "$row\n";
+      }
+    }
+    else {
+      warn "Could not open file '$file' $!";
+    }
+  }
+
+  sub main {
+    create_directory();
+  }
+
+  main();
