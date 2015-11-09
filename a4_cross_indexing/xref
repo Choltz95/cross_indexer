@@ -6,6 +6,7 @@ import sys
 import os
 import errno
 import re
+import datetime
 
 log = "dwarf_log.txt"
 statements = []
@@ -99,6 +100,7 @@ def get_info(stmt):
         return [lvl,id,tag,name,fname, int(decl_line_hex,16)]
     return None
 
+# info of the form[level, id, type, name, file,linenum]
 def parse_dd(statements):
     for stmt in statements:
         #print stmt
@@ -132,6 +134,11 @@ def generate_html(fname):
     for line in r:
         match_iden_subroutine = subroutine_iden_rgx.search(line)
         match_decl_subroutine = subroutine_decl_rgx.search(line)
+        # if brackets in c file, write associated entity for html
+        if ">" in line:
+            line = line.replace('>', "&gt;")
+        if "<" in line:
+            line = line.replace('<',"&lt;")
         if match_iden_subroutine is not None: # identify subroutine
             fun_call =  match_iden_subroutine.group(7).strip()
             id = get_key_from_val('s', fun_call)
@@ -155,12 +162,21 @@ def generate_html(fname):
     w.close()
 
 def generate_index():
+    now = datetime.datetime.now()
     index = open("HTML/index.html","w")
-    index.write("<html><head></head><body>")
-    # files
+    index.write("<html><head><title>cross indexer index</title></head><body><h2>Cross Indexer INDEX</h2>")
+    main_file_key = get_key_from_val('s',"main")
+    main_file = sub_programs[main_file_key][3]
+    index.write("<a href=\"" +  main_file.replace(".c",".html")  + "\">"+"main"+"</a>")
+    index.write("<p>")
+    # get all files
     for file in os.listdir("./HTML"):
-        if file.endswith(".html") and file != "index.html":
-            print(file)
+        if file.endswith(".html") and file != "index.html": 
+            index.write("<a href=\"" + file  + "\">"+file.replace(".html",".c")+"</a>")
+            index.write("<p>")
+    index.write("xref last run on: " + str(now))
+    index.write("<br>")
+    index.write("at: " + os.path.dirname(os.path.abspath(__file__)))
     index.write("</body></html>")
     index.close()
 
