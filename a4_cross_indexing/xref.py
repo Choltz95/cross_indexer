@@ -67,12 +67,23 @@ def parse_stmt(type, level, data, statement_id):
 
 def get_info(stmt):
     info_rgx = re.compile(r'<(-?[0-9]+)><(.*)><DW_TAG_(.*?)> .*DW_AT_name<(.*?)>')
+# add decl_line, DW_AT_location
+    loc_rgx = re.compile(r'DW_AT_decl_file<.*/(.*?)>')
+    decl_lin_rgx = re.compile(r'DW_AT_decl_line<(.*?)>')
     match = info_rgx.search(stmt)
+    match_loc = loc_rgx.search(stmt)
+    match_decl = decl_lin_rgx.search(stmt)
     if match is not None:
+        if match_loc is not None:
+            fname = match_loc.group(1)
+        if match_loc is not None:
+            #print match_decl.group(1)
+            decl_line_hex = match_decl.group(1)
         lvl = match.group(1)
         id = match.group(2)
         tag = match.group(3)
         name = match.group(4)
+
         # case subprogram
         if(tag == 'subprogram'):
             print 'matched subprogram'
@@ -83,7 +94,7 @@ def get_info(stmt):
         else:
             #print 'unknown tag'
             return None
-        return [lvl,id,tag,name]
+        return [lvl,id,tag,name,fname, int(decl_line_hex,16)]
     return None
 '''
 # case subprogram
@@ -108,6 +119,8 @@ def parse_dd(statements):
                 vars[info[1]].append(info[0])#,info[2],info[3])
                 vars[info[1]].append(info[2])
                 vars[info[1]].append(info[3])
+                vars[info[1]].append(info[4])
+                vars[info[1]].append(info[5])
             if info[2] == "subprogram":
                 #sub_programs[info[1]].append(info[0],info[2],info[3])
                 sub_programs[info[1]].append(info[0])#,info[2],info[3])
