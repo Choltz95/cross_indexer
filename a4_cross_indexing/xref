@@ -11,6 +11,7 @@ import datetime
 log = "dwarf_log.txt"
 statements = []
 vars = defaultdict(list)
+gloval_vars = defaultdict(list)
 sub_programs = defaultdict(list)
 symbol_table = {}
 current_level = -1
@@ -89,10 +90,13 @@ def get_info(stmt):
 
         # case subprogram
         if(tag == 'subprogram'):
-            print 'matched subprogram'
+            print 'matched subprogram: ' + name + "()"
         # case variable
         elif(tag == 'variable'):
-            print 'matched variable'
+            if(lvl == '1'):
+                print 'matched global variable: ' + name
+            else:
+                print 'matched variable: ' + name
         # unknown type
         else:
             #print 'unknown tag'
@@ -127,13 +131,17 @@ def generate_html(fname):
     subroutine_decl_rgx = re.compile(r'((int\s)|(void\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?)(?=\s?\()')
     # get function call identifier
     subroutine_iden_rgx = re.compile(r'^(?!(int\s)|(void\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?)(?=\s?\()')
-    
+    # var decl
+    var_decl_rgx = re.compile(r'((int\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?)=.*;?')
+    # var ident
+
     r = open(fname, "r")
     w = open("HTML/"+fname[:-1]+"html", "w")
-    w.write("<html><head></head><body><pre>")
+    w.write("<html><head></head><body><pre><code>")
     for line in r:
         match_iden_subroutine = subroutine_iden_rgx.search(line)
         match_decl_subroutine = subroutine_decl_rgx.search(line)
+        match_decl_variable = var_decl_rgx.search(line)
         # if brackets in c file, write associated entity for html
         if ">" in line:
             line = line.replace('>', "&gt;")
@@ -146,18 +154,22 @@ def generate_html(fname):
             #w.write("<a href=\"#"+id+"\">"+line+"</a>")
             w.write(line)
         elif match_decl_subroutine is not None: # declare subroutine
-            fun_iden = match_decl_subroutine.group(8).strip()
-            id = get_key_from_val('s', fun_iden)
-            line = line.replace(fun_iden,"<a name=\""+id+"\">" + fun_iden + "</a>")
+            fun_decl = match_decl_subroutine.group(8).strip()
+            id = get_key_from_val('s', fun_decl)
+            line = line.replace(fun_decl,"<a name=\""+id+"\">" + fun_decl + "</a>")
             #w.write("<a name=\""+id+"\">" + line +"</a>")
             w.write(line)
-        elif 1 == 2: # declare variable
-            print "variable"
+        elif match_decl_variable is not None: # declare variable
+            #print match_decl_variable.group(7).strip()
+            var_decl = match_decl_variable.group(7).strip()
+            id = get_key_from_val('v', var_decl)
+            line = line.replace(var_decl, "<a name=\""+id+"\">" + var_decl + "</a>")
+            w.write(line)
         elif 1 == 2: # identify variable
             print "variable"
         else:
             w.write(line)
-    w.write("</pre></body></html>")
+    w.write("</code></pre></body></html>")
     r.close()
     w.close()
 
@@ -183,6 +195,10 @@ def generate_index():
 def get_key_from_val(type, name):
     if type == 's':
         for key, val in sub_programs.iteritems():
+            if name in val:
+                return key
+    elif type == 'v':
+        for key, val in vars.iteritems():
             if name in val:
                 return key
 
