@@ -132,8 +132,9 @@ def generate_html(fname):
     # get function call identifier
     subroutine_iden_rgx = re.compile(r'^(?!(int\s)|(void\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?)(?=\s?\()')
     # var decl
-    var_decl_rgx = re.compile(r'((int\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?)=.*;?')
+    var_decl_rgx = re.compile(r'((int\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?)(=.*)?;')
     # var ident
+    var_iden_rgx = re.compile(r'^(?!(int\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?).*;?') # need to fix, also need to add support for .h files
 
     r = open(fname, "r")
     w = open("HTML/"+fname[:-1]+"html", "w")
@@ -156,14 +157,15 @@ def generate_html(fname):
         elif match_decl_subroutine is not None: # declare subroutine
             fun_decl = match_decl_subroutine.group(8).strip()
             id = get_key_from_val('s', fun_decl)
-            line = line.replace(fun_decl,"<a name=\""+id+"\">" + fun_decl + "</a>")
+            path = sub_programs[id][3].replace(".c",".html")
+            line = line.replace(fun_decl,"<a name=\"" + path + "#"+id+"\">" + fun_decl + "</a>")
             #w.write("<a name=\""+id+"\">" + line +"</a>")
             w.write(line)
         elif match_decl_variable is not None: # declare variable
             #print match_decl_variable.group(7).strip()
             var_decl = match_decl_variable.group(7).strip()
             id = get_key_from_val('v', var_decl)
-            line = line.replace(var_decl, "<a name=\""+id+"\">" + var_decl + "</a>")
+            line = line.replace(var_decl, "<a name=\"#"+id+"\">" + var_decl + "</a>")
             w.write(line)
         elif 1 == 2: # identify variable
             print "variable"
@@ -179,7 +181,7 @@ def generate_index():
     index.write("<html><head><title>cross indexer index</title></head><body><h2>Cross Indexer INDEX</h2>")
     main_file_key = get_key_from_val('s',"main")
     main_file = sub_programs[main_file_key][3]
-    index.write("<a href=\"" +  main_file.replace(".c",".html")  + "\">"+"main"+"</a>")
+    index.write("<a href=\"" +  main_file.replace(".c",".html")  + "\">"+"Link to main()"+"</a>")
     index.write("<p>")
     # get all files
     for file in os.listdir("./HTML"):
