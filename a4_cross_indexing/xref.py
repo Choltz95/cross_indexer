@@ -105,9 +105,14 @@ def parse_dd(statements):
         info = get_info(stmt)
         if info is not None:
             if info[2] == "variable":
-                vars[info[1]].append([info[0],info[2],info[3]])
+                vars[info[1]].append(info[0])#,info[2],info[3])
+                vars[info[1]].append(info[2])
+                vars[info[1]].append(info[3])
             if info[2] == "subprogram":
-                sub_programs[info[1]].append([info[0],info[2],info[3]])
+                #sub_programs[info[1]].append(info[0],info[2],info[3])
+                sub_programs[info[1]].append(info[0])#,info[2],info[3])
+                sub_programs[info[1]].append(info[2])
+                sub_programs[info[1]].append(info[3])
     print vars
     print sub_programs
 
