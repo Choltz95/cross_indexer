@@ -1,7 +1,7 @@
 
 .debug_info
 
-<0><0x0+0xb><DW_TAG_compile_unit> DW_AT_producer<GNU C 4.9.3 20150428 (for GNAT GPL 2015 20150428) -mtune=generic -march=x86-64 -g3> DW_AT_language<DW_LANG_C89> DW_AT_name<fib.c> DW_AT_comp_dir</u/lmurp14/Desktop/cross_indexer/a4_cross_indexing> DW_AT_low_pc<0x004005a6> DW_AT_high_pc<<offset-from-lowpc>189> DW_AT_stmt_list<0x00000000> DW_AT_GNU_macros<0x00000000>
+<0><0x0+0xb><DW_TAG_compile_unit> DW_AT_producer<GNU C11 5.1.1 20150618 (Red Hat 5.1.1-4) -mtune=generic -march=x86-64 -g3> DW_AT_language<DW_LANG_C99> DW_AT_name<fib.c> DW_AT_comp_dir</u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing> DW_AT_low_pc<0x004005f6> DW_AT_high_pc<<offset-from-lowpc>194> DW_AT_stmt_list<0x00000000> DW_AT_GNU_macros<0x00000000>
 <1><0x31><DW_TAG_base_type> DW_AT_byte_size<0x00000008> DW_AT_encoding<DW_ATE_unsigned> DW_AT_name<long unsigned int>
 <1><0x38><DW_TAG_base_type> DW_AT_byte_size<0x00000001> DW_AT_encoding<DW_ATE_unsigned_char> DW_AT_name<unsigned char>
 <1><0x3f><DW_TAG_base_type> DW_AT_byte_size<0x00000002> DW_AT_encoding<DW_ATE_unsigned> DW_AT_name<short unsigned int>
@@ -12,14 +12,15 @@
 <1><0x62><DW_TAG_base_type> DW_AT_byte_size<0x00000008> DW_AT_encoding<DW_ATE_signed> DW_AT_name<long int>
 <1><0x69><DW_TAG_base_type> DW_AT_byte_size<0x00000008> DW_AT_encoding<DW_ATE_unsigned> DW_AT_name<sizetype>
 <1><0x70><DW_TAG_base_type> DW_AT_byte_size<0x00000001> DW_AT_encoding<DW_ATE_signed_char> DW_AT_name<char>
-<1><0x77><DW_TAG_subprogram> DW_AT_external<yes(1)> DW_AT_name<add> DW_AT_decl_file<0x00000001 /u/lmurp14/Desktop/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x00000005> DW_AT_type<<0x0000005b>> DW_AT_low_pc<0x004005a6> DW_AT_high_pc<<offset-from-lowpc>12> DW_AT_frame_base<len 0x0001: 9c: DW_OP_call_frame_cfa> DW_AT_GNU_all_call_sites<yes(1)>
-<1><0x94><DW_TAG_subprogram> DW_AT_external<yes(1)> DW_AT_name<main> DW_AT_decl_file<0x00000001 /u/lmurp14/Desktop/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x00000009> DW_AT_type<<0x0000005b>> DW_AT_low_pc<0x004005b2> DW_AT_high_pc<<offset-from-lowpc>177> DW_AT_frame_base<len 0x0001: 9c: DW_OP_call_frame_cfa> DW_AT_GNU_all_tail_call_sites<yes(1)> DW_AT_sibling<<0x00000116>>
-<2><0xb5><DW_TAG_variable> DW_AT_name<n> DW_AT_decl_file<0x00000001 /u/lmurp14/Desktop/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000a> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9158: DW_OP_fbreg -40>
-<2><0xc1><DW_TAG_variable> DW_AT_name<first> DW_AT_decl_file<0x00000001 /u/lmurp14/Desktop/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000b> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 916c: DW_OP_fbreg -20>
-<2><0xcf><DW_TAG_variable> DW_AT_name<second> DW_AT_decl_file<0x00000001 /u/lmurp14/Desktop/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000c> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9168: DW_OP_fbreg -24>
-<2><0xdd><DW_TAG_variable> DW_AT_name<next> DW_AT_decl_file<0x00000001 /u/lmurp14/Desktop/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000d> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9164: DW_OP_fbreg -28>
-<2><0xeb><DW_TAG_variable> DW_AT_name<c> DW_AT_decl_file<0x00000001 /u/lmurp14/Desktop/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000e> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9160: DW_OP_fbreg -32>
-<2><0xf7><DW_TAG_lexical_block> DW_AT_low_pc<0x0040060f> DW_AT_high_pc<<offset-from-lowpc>64>
-<3><0x108><DW_TAG_variable> DW_AT_name<x> DW_AT_decl_file<0x00000001 /u/lmurp14/Desktop/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x00000018> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 915c: DW_OP_fbreg -36>
-<1><0x116><DW_TAG_variable> DW_AT_name<g> DW_AT_decl_file<0x00000001 /u/lmurp14/Desktop/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x00000003> DW_AT_type<<0x0000005b>> DW_AT_external<yes(1)> DW_AT_location<len 0x0009: 03e00a600000000000: DW_OP_addr 0x00600ae0>
+<1><0x77><DW_TAG_subprogram> DW_AT_external<yes(1)> DW_AT_name<add> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x00000005> DW_AT_type<<0x0000005b>> DW_AT_low_pc<0x004005f6> DW_AT_high_pc<<offset-from-lowpc>11> DW_AT_frame_base<len 0x0001: 9c: DW_OP_call_frame_cfa> DW_AT_GNU_all_call_sites<yes(1)>
+<1><0x94><DW_TAG_subprogram> DW_AT_external<yes(1)> DW_AT_name<main> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x00000009> DW_AT_type<<0x0000005b>> DW_AT_low_pc<0x00400601> DW_AT_high_pc<<offset-from-lowpc>183> DW_AT_frame_base<len 0x0001: 9c: DW_OP_call_frame_cfa> DW_AT_GNU_all_tail_call_sites<yes(1)> DW_AT_sibling<<0x00000122>>
+<2><0xb5><DW_TAG_variable> DW_AT_name<n> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000a> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9154: DW_OP_fbreg -44>
+<2><0xc1><DW_TAG_variable> DW_AT_name<first> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000b> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 916c: DW_OP_fbreg -20>
+<2><0xcf><DW_TAG_variable> DW_AT_name<second> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000c> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9168: DW_OP_fbreg -24>
+<2><0xdd><DW_TAG_variable> DW_AT_name<next> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000d> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9164: DW_OP_fbreg -28>
+<2><0xeb><DW_TAG_variable> DW_AT_name<c> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x0000000e> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9160: DW_OP_fbreg -32>
+<2><0xf7><DW_TAG_variable> DW_AT_name<p> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x00000023> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 9158: DW_OP_fbreg -40>
+<2><0x103><DW_TAG_lexical_block> DW_AT_low_pc<0x0040065e> DW_AT_high_pc<<offset-from-lowpc>64>
+<3><0x114><DW_TAG_variable> DW_AT_name<x> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x00000018> DW_AT_type<<0x0000005b>> DW_AT_location<len 0x0002: 915c: DW_OP_fbreg -36>
+<1><0x122><DW_TAG_variable> DW_AT_name<g> DW_AT_decl_file<0x00000001 /u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c> DW_AT_decl_line<0x00000003> DW_AT_type<<0x0000005b>> DW_AT_external<yes(1)> DW_AT_location<len 0x0009: 034410600000000000: DW_OP_addr 0x00601044>
 

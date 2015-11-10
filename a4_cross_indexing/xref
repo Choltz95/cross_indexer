@@ -111,6 +111,47 @@ def get_info(stmt):
         return [lvl,id,tag,name,fname, int(decl_line_hex,16)]
     return None
 
+def insert(li, sl, line,statements):
+    tag = -1
+    id = -1
+    sl_dict = {}
+    l = []
+    line_info = get_info(statements[line])
+    if line_info is not None:
+        id = line_info[1]
+    if id != -1:
+        sl_dict[id] = line_info
+        #add dwarf info as dict and set as 1st element of list
+        li.append(sl_dict)
+        line = line + 1
+        more_line_info = get_info(statements[line])
+        #get tag from new info
+        if more_line_info is not None:
+            tag = more_line_info[0]
+            name = more_line_info[1]
+        while(int(tag) > sl):
+            if(int(tag) == sl+1):    
+                   insert(li,tag,line,statements)
+            line = line + 1
+            if get_info(statements[line]) is not None:
+                tag = get_info(statements[line])[0]    
+    #li.append(l)
+
+def make_tree(statements):
+    l=[]
+    line = 0
+    for stmt in statements:
+        info = get_info(stmt)
+        tag = -1
+        if info is not None:
+            tag =  info[0]
+        #tag = get_info(stmt)[0]
+        #print tag
+        if(int(tag)==1):
+            insert(l,int(tag),line,statements)
+        line = line + 1
+    print l
+
 # info of the form[level, id, type, name, file,linenum]
 def parse_dd(statements):
     for stmt in statements:
@@ -218,7 +259,7 @@ def generate_html(fname):
             for iden in match_iden_variable:
                 id = get_key_from_val('v', iden)
                 if(id is not None):
-                        print iden
+                        #print iden
                         if vars[id][3].endswith(".c"):
                             path = vars[id][3].replace(".c",".html")
                         elif vars[id][3].endswith(".h"):
@@ -285,6 +326,7 @@ def main():
     with open(log) as f:
         statements = f.readlines()
     parse_dd(statements)
+    make_tree(statements) # need parameter to avoid global variable problem
     for file in os.listdir("."):
         if file.endswith(".c") or file.endswith(".h"):
             generate_html(str(file)) 

@@ -32,6 +32,6 @@ int main() {
       }
       printf("%d\n",next);
    }
- 
+   int p = 1; 
    return 0;
 }

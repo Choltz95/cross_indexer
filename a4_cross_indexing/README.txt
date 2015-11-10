@@ -18,6 +18,21 @@ We also provide some syntactic highlighting and coloring to make the resulting w
 == Approach ==
 For our approach we have a set global memory environments which stores variables and subroutines along with their scopes, memory addresses, position in the program, and filename. We represent the scope of blocks and variables as a tree in memory where nodes lower on the tree have lower scope, and nodes on the first level have global scope.
 
+--Dwarfdump inspection--
+We scan dwarfdump by making copious use of Pythons regex library re. We developed a different regex based on our needs to declarations as well as references of variables, functions, structs, etc all of varying scope. An example of such a regex is this one to grab uniform (always given regardless of type) header data:
+info_rgx = re.compile(r'<(-?[0-9]+)><(.*)><DW_TAG_(.*?)> .*DW_AT_name<(.*?)>')
+In this case, we capture groups of associated data and grab them later. By observing the dwarfdump output, we see that the first <> section is always a level number that refers to the general scope of the declaration analyzed. The second is a tag that provides the type of an object and the third is its name. Additionally, there are some type specific datas that we grab once we have knowledge of the type.
+
+We store information captured from this data in an array and return that array to be stored in a key-value dictionary with the key beign the hex identifier.
+
+--Generating HTML--
+First, we parse through each .c and .h file for declarations using the following regular expression:
+((int\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?)(=.*)?;
+This regex enforces on of an optional set of type declarations and spaces followed by the shortest possible composition of characters followed by an optional = sign and a semicolon. When we encounter a matching declaration, we varify that it is a declaration found by dwarfdump, and if it is, we wrap it in name tags where the name is simply the id. To generate the html, we "parse" each .c and .h file to obtain knowledge of variable and function references. We keep track of the line number and each time we encounter a potential variable reference, we varify its scope and link it to the associated declaration.
+
+--Determining scope--
+We determine the scope of declared blocks/variables by generating a scope tree. Nodes on the first level of the scope tree represent items of global scope, and as we traverse downwards, scope increases. Variable declarations are always leaves, but function declarations are not always parents. When we encounter a reference, we look at all possible declarations and traverse the tree bottom up to look for the declaration such that out of all possible declarations, its scope is smallest > the referencing thing and it is visible.
+
 == Problems ==
 Unfortunately, our regex is imperfect. There is only so much information we can garner from the dwarfdump log with simple pattern matching. The only perfect pattern matchers perform the same syntactic and semantic analysis as the compiler itself. These issues result in some rare variable recognition/nonrecognition that cannot be fixed. 
 
