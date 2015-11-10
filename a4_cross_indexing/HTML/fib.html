@@ -1,0 +1,38 @@
+<html><head><link rel="stylesheet" href="http://cdn.jsdelivr.net/highlight.js/8.9.1/styles/default.min.css"><script src="http://cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js"></script><script>hljs.initHighlightingOnLoad();</script></head><body><pre><code class="c">#include&lt;stdio.h&gt;
+
+int<a name="0x116"> <mark>g</mark></a> = 1;
+
+int<a name="0x77"> <mark>add</mark></a>() {
+  return 1 + 1;
+}
+
+int<a name="0x94"> <mark>main</mark></a>() {
+   int<a name="0xb5"> <mark>n</mark></a>;
+   int<a name="0xc1"> <mark>first</mark></a> = 0;
+   int<a name="0xcf"> <mark>second</mark></a> = 1;
+   int<a name="0xdd"> <mark>next</mark></a>;
+   int<a name="0xeb"> <mark>c</mark></a>;
+
+   <a href="fib.html#0x77">add</a>();
+   printf("Enter the number of terms\n");
+   scanf("%d",&<a href="fib.html#0xb5">n</a>);
+ 
+   printf("First %d terms of Fibonacci series are :-\n",<a href="fib.html#0xb5">n</a>);
+ 
+   for ( <a href="fib.html#0xeb">c</a> = 0 ; <a href="fib.html#0xeb">c</a> &lt; <a href="fib.html#0xb5">n</a> ; <a href="fib.html#0xeb">c</a>++ )
+   {
+      int<a name="0x108"> <mark>x</mark></a> = 7;
+      if ( <a href="fib.html#0xeb">c</a> &lt;= 1 )
+         <a href="fib.html#0xdd">next</a> = <a href="fib.html#0xeb">c</a>;
+      else
+      {
+         <a href="fib.html#0xdd">next</a> = <a href="fib.html#0xc1">first</a> + <a href="fib.html#0xcf">second</a>;
+         <a href="fib.html#0xc1">first</a> = <a href="fib.html#0xcf">second</a>;
+         <a href="fib.html#0xcf">second</a> = <a href="fib.html#0xdd">next</a>;
+      }
+      printf("%d\n",<a href="fib.html#0xdd">next</a>);
+   }
+ 
+   return 0;
+}
+</code></pre></body></html>

@@ -80,8 +80,6 @@ def get_info(stmt):
 
     fname = ""
     name = ""
-    decl_line_hex = 0
-
     if match is not None:
         if match_loc is not None:
             fname = match_loc.group(1)
@@ -105,8 +103,6 @@ def get_info(stmt):
         # unknown type
         else:
             print 'unknown tag'
-            return None
-        if decl_line_hex ==0:
             return None
         return [lvl,id,tag,name,fname, int(decl_line_hex,16)]
     return None

@@ -6,6 +6,6 @@ int foo() {
 int main() {
     int y = 2;
     int z = x + y;
-    x = 3;
+    x = y;
     foo();
 }
