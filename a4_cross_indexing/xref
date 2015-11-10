@@ -122,7 +122,7 @@ def insert(li, sl, line,statements):
     if id != -1:
         sl_dict[id] = line_info
         #add dwarf info as dict and set as 1st element of list
-        li.append(sl_dict)
+        l.append(sl_dict) #l.append
         line = line + 1
         more_line_info = get_info(statements[line])
         #get tag from new info
@@ -130,12 +130,13 @@ def insert(li, sl, line,statements):
             tag = more_line_info[0]
             name = more_line_info[1]
         while(int(tag) > sl):
-            if(int(tag) == sl+1):    
-                   insert(li,tag,line,statements)
+            if(int(tag) == sl+1):
+                insert(l,int(tag) + 1,line,statements)
             line = line + 1
             if get_info(statements[line]) is not None:
-                tag = get_info(statements[line])[0]    
-    #li.append(l)
+                tag = get_info(statements[line])[0] 
+    if l:   
+        li.append(l)
 
 def make_tree(statements):
     l=[]
@@ -151,6 +152,7 @@ def make_tree(statements):
             insert(l,int(tag),line,statements)
         line = line + 1
     print l
+    return l
 
 # info of the form[level, id, type, name, file,linenum]
 def parse_dd(statements):
@@ -187,6 +189,7 @@ def generate_html(fname):
     subroutine_iden_rgx = re.compile(r'^(?!(int\s)|(void\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?)(?=\s?\()')
     # var decl
     var_decl_rgx = re.compile(r'((int\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*?)(=.*)?;')
+    struct_decl_rgx = re.compile(r'((int\s)|(struct\s)|(char\s))(.*?)\s(.*?)(=.*)?;')
     # var ident
     #var_iden_rgx = re.compile(r'^(?!(int\s)|(string\s)|(double\s)|(float\s)|(char\s))(.*)') # need to fix, also need to add support for .h files
 
@@ -326,7 +329,7 @@ def main():
     with open(log) as f:
         statements = f.readlines()
     parse_dd(statements)
-    make_tree(statements) # need parameter to avoid global variable problem
+    scope_tree = make_tree(statements) # need parameter to avoid global variable problem
     for file in os.listdir("."):
         if file.endswith(".c") or file.endswith(".h"):
             generate_html(str(file)) 

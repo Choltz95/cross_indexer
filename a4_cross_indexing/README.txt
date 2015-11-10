@@ -34,7 +34,7 @@ This regex enforces on of an optional set of type declarations and spaces follow
 We determine the scope of declared blocks/variables by generating a scope tree. Nodes on the first level of the scope tree represent items of global scope, and as we traverse downwards, scope increases. Variable declarations are always leaves, but function declarations are not always parents. When we encounter a reference, we look at all possible declarations and traverse the tree bottom up to look for the declaration such that out of all possible declarations, its scope is smallest > the referencing thing and it is visible.
 
 == Problems ==
-Unfortunately, our regex is imperfect. There is only so much information we can garner from the dwarfdump log with simple pattern matching. The only perfect pattern matchers perform the same syntactic and semantic analysis as the compiler itself. These issues result in some rare variable recognition/nonrecognition that cannot be fixed. 
+Unfortunately, our regex is imperfect. There is only so much information we can garner from the dwarfdump log with simple pattern matching. The only perfect pattern matchers perform the same syntactic and semantic analysis as the compiler itself. These issues result in some rare variable recognition/nonrecognition that cannot be fixed. Our cross-indexer is far from perfect.
 
 == Instructions ==
 From the command line, run ./xref [arg] where arg is the compiled c binary.
