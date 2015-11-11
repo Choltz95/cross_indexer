@@ -1,0 +1,36 @@
+
+.debug_line: line number info for a single cu
+Source lines (from CU-DIE at .debug_info offset 0x0000000b):
+
+            NS new statement, BB new basic block, ET end of text sequence
+            PE prologue end, EB epilogue begin
+            IA=val ISA number, DI=val discriminator value
+<pc>        [row,col] NS BB ET PE EB IS= DI= uri: "filepath"
+0x004005f6  [   5, 0] NS uri: "/u/choltz2/school/csc_254/cross_indexer/a4_cross_indexing/fib.c"
+0x004005fa  [   6, 0] NS
+0x004005ff  [   7, 0] NS
+0x00400601  [   9, 0] NS
+0x00400609  [  11, 0] NS
+0x00400610  [  12, 0] NS
+0x00400617  [  16, 0] NS
+0x00400621  [  17, 0] NS
+0x0040062b  [  18, 0] NS
+0x00400641  [  20, 0] NS
+0x00400655  [  22, 0] NS
+0x0040065e  [  24, 0] NS
+0x00400665  [  25, 0] NS
+0x0040066c  [  26, 0] NS
+0x00400673  [  27, 0] NS
+0x00400679  [  28, 0] NS
+0x00400681  [  31, 0] NS
+0x0040068c  [  32, 0] NS
+0x00400692  [  33, 0] NS
+0x00400698  [  35, 0] NS DI=0x2
+0x004006ac  [  36, 0] NS DI=0x2
+0x004006b3  [  22, 0] NS DI=0x2
+0x004006b7  [  22, 0] DI=0x1
+0x004006bf  [  38, 0] NS
+0x004006c6  [  39, 0] NS
+0x004006cb  [  40, 0] NS
+0x004006cd  [  40, 0] NS ET
+

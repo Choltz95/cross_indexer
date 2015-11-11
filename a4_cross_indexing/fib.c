@@ -22,6 +22,8 @@ int main() {
    for ( c = 0 ; c < n ; c++ )
    {
       int x = 7;
+      int d = 5;
+      d = 2;
       if ( c <= 1 )
          next = c;
       else
@@ -31,6 +33,7 @@ int main() {
          second = next;
       }
       printf("%d\n",next);
+      int y = 2;
    }
    int p = 1; 
    return 0;

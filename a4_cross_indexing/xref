@@ -9,12 +9,14 @@ import re
 import datetime
 
 log = "dwarf_log.txt"
+bin = ""
 statements = []
 vars = defaultdict(list)
 global_vars = defaultdict(list)
 sub_programs = defaultdict(list)
 symbol_table = {}
 current_level = -1
+scope_tree = []
 
 name_stack = []
 id_to_name = {}
@@ -69,19 +71,82 @@ def parse_stmt(type, level, data, statement_id):
                 loc = int(split[1], 0)
                 vars[data['DW_AT_name']] = [loc, data['DW_AT_type']]
 
+# gets stuff from debug table
+def get_debug_table():
+    dt_info_rgx = re.compile(r'(0x[0-9a-fA-F]+) .* ([0-9]+),')
+    flag = False
+    table = []
+    t={}
+    f = open("debug_table", "w")
+    call("~cs254/bin/dwarfdump -l " + bin, shell=True, stdout = f)
+    f.close()
+    with open('debug_table') as f:
+        for line in f.readlines():
+            if "<pc>" in line:
+                flag = True
+            if flag == True:
+                table.append(line)
+    for row in table:
+        match_dt_info = dt_info_rgx.search(row)
+        if match_dt_info is not None:
+            t[match_dt_info.group(1)] = match_dt_info.group(2)
+    return t
+
+def get_line(hex, dict):
+    for key,value in dict.iteritems():
+        if hex in key:
+            return dict[key]
+
+def get_prev_line(hex,dict,l,h):
+    low = l
+    k = sorted(dict.keys())
+    print k
+    for key,value in dict.iteritems():
+        if hex in key:
+            temp=dict[key]
+            i = k.index(key)
+    while l > h:
+        i = i-1
+        h = dict[k[i]]
+    return h
+
+
+#<2><0x103><DW_TAG_lexical_block> DW_AT_low_pc<0x0040065e> DW_AT_high_pc<<offset-from-lowpc>64>
 def get_info(stmt):
     info_rgx = re.compile(r'<(-?[0-9]+)><(.*)><DW_TAG_(.*?)> .*DW_AT_name<(.*?)>')
 # add decl_line, DW_AT_location
     loc_rgx = re.compile(r'DW_AT_decl_file<.*/(.*?)>')
     decl_lin_rgx = re.compile(r'DW_AT_decl_line<(.*?)>')
+    low_pc_rgx = re.compile(r'DW_AT_low_pc<(.*?)>')
+    high_pc_rgx = re.compile(r'DW_AT_high_pc<<offset-from-lowpc>(.*?)>')
+    lexical_block_rgx = re.compile(r'<(-?[0-9]+)><(.*)><DW_TAG_lexical_block> DW_AT_low_pc<(.*?)> DW_AT_high_pc<<offset-from-lowpc>(.*?)>')
     match = info_rgx.search(stmt)
     match_loc = loc_rgx.search(stmt)
     match_decl = decl_lin_rgx.search(stmt)
+    match_lb = lexical_block_rgx.search(stmt)
 
+    match_low_pc = low_pc_rgx.search(stmt)
+    match_high_pc = high_pc_rgx.search(stmt)
     fname = ""
     name = ""
     decl_line_hex = 0
 
+    if match_lb is not None:
+        #print 'matched lexical_block'
+        lvl_lb = match_lb.group(1)
+        id_lb = match_lb.group(2)
+        tag_lb = 'lexical_block'
+        low_pc = match_lb.group(3)
+        high_pc = match_lb.group(4)
+        d_table = get_debug_table()
+        low_line = d_table[low_pc]
+        int_sum = int(low_pc,16) + int(high_pc)
+        hex_sum = hex(int_sum)
+        high_line = get_line(hex_sum[2:],d_table)
+        if high_line < low_line:
+            high_line = get_prev_line(hex_sum[2:],d_table, low_line, high_line)
+
+        return [lvl_lb,id_lb,tag_lb,low_line, high_line]
     if match is not None:
         if match_loc is not None:
             fname = match_loc.group(1)
@@ -92,26 +157,34 @@ def get_info(stmt):
         id = match.group(2)
         tag = match.group(3)
         name = match.group(4)
-
         # case subprogram
         if(tag == 'subprogram'):
-            print 'matched subprogram: ' + name + "()"
+            if match_low_pc is not None and match_high_pc is not None:
+                low_pc = match_low_pc.group(1)
+                high_pc = match_high_pc.group(1)
+                d_table = get_debug_table()
+                low_line = d_table[low_pc]
+                int_sum = int(low_pc,16) + int(high_pc)
+                hex_sum = hex(int_sum)
+                high_line = get_line(hex_sum[2:],d_table)
+                return [lvl,id,tag,name,fname,int(decl_line_hex,16),low_line, high_line]
+#            print 'matched subprogram: ' + name + "()"
         # case variable
-        elif(tag == 'variable'):
-            if(lvl == '1'):
-                print 'matched global variable: ' + name
-            else:
-                print 'matched variable: ' + name
-        # unknown type
-        else:
-            print 'unknown tag'
-            return None
+#        elif(tag == 'variable'):
+#            if(lvl == '1'):
+#                print 'matched global variable: ' + name
+#            else:
+#                print 'matched variable: ' + name
+#        # unknown type
+#        else:
+#            print 'unknown tag'
+#            return None
         if decl_line_hex ==0:
             return None
         return [lvl,id,tag,name,fname, int(decl_line_hex,16)]
     return None
 
-def insert(li, sl, line,statements):
+def insert(li, sl, line, statements):
     tag = -1
     id = -1
     sl_dict = {}
@@ -121,17 +194,17 @@ def insert(li, sl, line,statements):
         id = line_info[1]
     if id != -1:
         sl_dict[id] = line_info
-        #add dwarf info as dict and set as 1st element of list
+        # add dwarf info as dict and set as 1st element of list
         l.append(sl_dict) #l.append
         line = line + 1
         more_line_info = get_info(statements[line])
-        #get tag from new info
+        # get tag from new info
         if more_line_info is not None:
             tag = more_line_info[0]
             name = more_line_info[1]
         while(int(tag) > sl):
-            if(int(tag) == sl+1):
-                insert(l,int(tag) + 1,line,statements)
+            if(int(tag) == sl+1): 
+                insert(l,int(tag),line,statements)
             line = line + 1
             if get_info(statements[line]) is not None:
                 tag = get_info(statements[line])[0] 
@@ -139,7 +212,7 @@ def insert(li, sl, line,statements):
         li.append(l)
 
 def make_tree(statements):
-    l=[]
+    l=[1]
     line = 0
     for stmt in statements:
         info = get_info(stmt)
@@ -147,12 +220,41 @@ def make_tree(statements):
         if info is not None:
             tag =  info[0]
         #tag = get_info(stmt)[0]
-        #print tag
+        # global variables make up nodes at depth 1
         if(int(tag)==1):
             insert(l,int(tag),line,statements)
         line = line + 1
+    print "SCOPE TREE ******"
     print l
     return l
+
+def lookup(name, line, tree):
+    if(len(tree)==1):
+        if(tree[0].values()[0][3] == name):
+            return tree[0].values()[0][1]
+        else:
+            return "WHAT"
+    else:
+        
+        flag = True
+        for i in range(1,len(tree)):
+            temp = tree[i]
+            info = temp[0]
+            vals = info.values()[0]
+            if vals[2] != 'variable':
+                flag = False
+                r = vals[-2:]
+                if (line in range(int(r[0]),int(r[1])+1)) :
+                    lookup(name,line,temp)
+            # else:
+            #     if(vals[3]== name):
+            #         return vals[1]
+        #if(flag):
+            # for i in range(1,len(tree)):
+            #     if(tree[i][0].values()[0][3] == name):
+            #         return tree[i][0].values()[0][1]
+
+
 
 # info of the form[level, id, type, name, file,linenum]
 def parse_dd(statements):
@@ -198,6 +300,7 @@ def generate_html(fname):
     r = open(fname, "r")
     w = open("HTML/"+fname[:-1]+"html", "w")
     w.write("<html><head><link rel=\"stylesheet\" href=\"http://cdn.jsdelivr.net/highlight.js/8.9.1/styles/default.min.css\"><script src=\"http://cdn.jsdelivr.net/highlight.js/8.9.1/highlight.min.js\"></script><script>hljs.initHighlightingOnLoad();</script></head><body><pre><code class=\"c\">")
+    count = 1   
     for line in r:
         match_iden_subroutine = subroutine_iden_rgx.search(line)
         match_decl_subroutine = subroutine_decl_rgx.search(line)
@@ -247,6 +350,7 @@ def generate_html(fname):
                 if (iden != var_decl):
                     id = get_key_from_val('v', iden)
                     if(id is not None):
+                        id = lookup(iden,count,scope_tree)
                         if vars[id][3].endswith(".c"):
                             path = vars[id][3].replace(".c",".html")
                         elif vars[id][3].endswith(".h"):
@@ -263,6 +367,9 @@ def generate_html(fname):
                 id = get_key_from_val('v', iden)
                 if(id is not None):
                         #print iden
+                        print count
+                        id2 = lookup(iden,count,scope_tree)
+                        print id2
                         if vars[id][3].endswith(".c"):
                             path = vars[id][3].replace(".c",".html")
                         elif vars[id][3].endswith(".h"):
@@ -277,6 +384,7 @@ def generate_html(fname):
         else:
             print("error")
         w.write(line)
+        count = count + 1
     w.write("</code></pre></body></html>")
     r.close()
     w.close()
@@ -320,16 +428,20 @@ def get_key_from_val(type, name):
 
 def main():
     # generate HTML directory
+    global bin
     create_directory("HTML")
+    bin = str(sys.argv[1])
     # save DD to log
     f = open(log, "w")
-    call("~cs254/bin/dwarfdump -di " + str(sys.argv[1]), shell=True, stdout = f)
+    call("~cs254/bin/dwarfdump -di " + bin, shell=True, stdout = f)
     f.close()
     # array of dd statements
     with open(log) as f:
         statements = f.readlines()
     parse_dd(statements)
+    global scope_tree
     scope_tree = make_tree(statements) # need parameter to avoid global variable problem
+    #print lookup('d',26,scope_tree)
     for file in os.listdir("."):
         if file.endswith(".c") or file.endswith(".h"):
             generate_html(str(file)) 
